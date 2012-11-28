@@ -112,6 +112,12 @@ buffer-specific modes or add key bindings."
   :group 'edit-server
   :type 'boolean)
 
+(defcustom edit-server-pop-buffer t
+  "If not nil and edit-server-switch-buffer is nil, pop to the buffer;
+otherwise, switch to it."
+  :group 'edit-server
+  :type 'boolean)
+
 (defcustom edit-server-new-frame-alist
   '((name . "Emacs TEXTAREA")
     (width . 80)
@@ -437,7 +443,9 @@ frame."
 	(set-window-buffer (frame-selected-window new-frame) buffer)
 	new-frame)
     (select-frame-set-input-focus (window-frame (selected-window)))
-    (pop-to-buffer buffer)
+    (if edit-server-pop-buffer
+        (pop-to-buffer buffer)
+      (switch-to-buffer buffer))
     (raise-frame)
     nil))
 
